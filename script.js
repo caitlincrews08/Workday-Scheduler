@@ -12,47 +12,56 @@ $(document).ready(function() {
   var bizHours = [
     {
       id: "0",
-      time: "9 am",
+      time: "09",
+      display: "9 am",
       savedAppointments: ""
     },
     {
       id: "1",
-      time: "10 am",
+      time: "10",
+      display: "10 am",
       savedAppointments: ""
     },
     {
       id: "2",
-      time: "11 am",
+      time: "11",
+      display: "11 am",
       savedAppointments: ""
     },
     {
       id: "3",
-      time: "12 pm",
+      time: "12",
+      display: "12 pm",
       savedAppointments: ""
     },
     {
       id: "4",
-      time: "1 pm",
+      time: "13",
+      display: "1 pm",
       savedAppointments: ""
     },
     {
       id: "5",
-      time: "2 pm",
+      time: "14",
+      display: "2 pm",
       savedAppointments: ""
     },
     {
       id: "6",
-      time: "3 pm",
+      time: "15",
+      display: "3 pm",
       savedAppointments: ""
     },
     {
       id: "7",
-      time: "4 pm",
+      time: "16",
+      display: "4 pm",
       savedAppointments: ""
     },
     {
       id: "8",
-      time: "5 pm",
+      time: "17",
+      display: "5 pm",
       savedAppointments: ""
     },
   ]
@@ -65,7 +74,7 @@ $(document).ready(function() {
   // sets any appointments saved in local storage
   function setAppointments(){
     bizHours.forEach(function(hours){
-      $(hours.id).val(hours.savedAppointments);
+      $('#${hours.id}').val(hours.savedAppointments);
     });
   }
   
@@ -74,7 +83,7 @@ $(document).ready(function() {
   function displayAppointment(){
         var storedAppointments = JSON.parse(localStorage.getItem("bizHours"));
        if (storedAppointments) {
-         bizHours.savedAppointments = storedAppointments;
+         bizHours = storedAppointments;
        }
 
        myAppointments();
@@ -92,17 +101,28 @@ $(document).ready(function() {
     
     // creates time display
     var displayHour = $("<div>");
-    displayHour.text(hour.time);
-    displayHour.addClass("col-md-2 .hour");
+    displayHour.text(hour.display);
+    displayHour.addClass("col-md-2 hour");
 
     // creates scheduling form
     var scheduleHere = $("<textarea>");
     scheduleHere.addClass("col-md-9 textarea");
+    scheduleHere.attr("id", hour.id);
+    // color codes area based on past, present, and future
+    if (hour.time < moment().format("HH")) {
+      scheduleHere.attr({"class": "col-md-9 textarea past"})
+
+    } else if (hour.time === moment().format("HH")) {
+      scheduleHere.attr({"class": "col-md-9 textarea present"})
+
+    } else if (hour.time > moment().format("HH")) {
+      scheduleHere.attr({"class": "col-md-9 textarea future"})
+    };
     
     // creates save button
     var saveBtn = $("<button>");
     saveBtn.text("Save");
-    saveBtn.addClass("col-md-1 .saveBtn");
+    saveBtn.addClass("col-md-1 saveBtn");
 
     // FUNCTIONS --------------------------------------------------------------------------------
 
@@ -138,7 +158,6 @@ $(document).ready(function() {
     hourDiv.append(displayHour, scheduleHere, saveBtn);
   });
 
-// start by creating click event for button √
 // create saveToLocal function √
 // create createAppointment function
 // then figure out whats wrong with the styling
