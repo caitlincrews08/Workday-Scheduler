@@ -144,7 +144,7 @@ $(document).ready(function() {
       event.preventDefault();
       var textareaContent = $(this).siblings('textarea').val();
       console.log(textareaContent);
-      $(savedAppointments).append(textareaContent);
+      $(bizHours.savedAppointments).append(textareaContent);
       
       
       displayAppointment();
